@@ -1,0 +1,27 @@
+diff --git i/srt-live-client.cpp w/srt-live-client.cpp
+index aca6ec8..e4727ea 100644
+--- i/srt-live-client.cpp
++++ w/srt-live-client.cpp
+@@ -47,7 +47,8 @@ static void ctrl_c_handler(int s){
+  */
+ #define SLS_MAJOR_VERSION "1"
+ #define SLS_MIN_VERSION "1"
+-#define SLS_TEST_VERSION "x"
++#define SLS_TEST_VERSION "3 - source: https://gitlab.com/mattwb65/srt-live-server, patch https://github.com/b3ck/sls-b3ck-edit/commit/c8ba19289a583d964dc5e54c746e2b24499226f5.patch"
++
+ static void usage()
+ {
+     printf("-------------------------------------------------\n");
+diff --git i/srt-live-server.cpp w/srt-live-server.cpp
+index a17f62b..e422668 100644
+--- i/srt-live-server.cpp
++++ w/srt-live-server.cpp
+@@ -61,7 +61,7 @@ Server svr;
+  */
+ #define SLS_MAJOR_VERSION "1"
+ #define SLS_MIN_VERSION "4"
+-#define SLS_TEST_VERSION "x"
++#define SLS_TEST_VERSION "3 - source: https://gitlab.com/mattwb65/srt-live-server, patch https://github.com/b3ck/sls-b3ck-edit/commit/c8ba19289a583d964dc5e54c746e2b24499226f5.patch"
+ static void usage()
+ {
+     printf("-------------------------------------------------\n");

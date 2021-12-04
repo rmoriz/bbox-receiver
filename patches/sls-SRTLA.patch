@@ -1,0 +1,15 @@
+diff --git i/slscore/SLSSrt.cpp w/slscore/SLSSrt.cpp
+index 54d0714..e286e3d 100644
+--- i/slscore/SLSSrt.cpp
++++ w/slscore/SLSSrt.cpp
+@@ -184,7 +184,10 @@ int CSLSSrt::libsrt_setup(int port)
+ */
+ 
+     int enable = 0;
++    int lossmaxttlvalue = 40;
++
+     srt_setsockopt(fd, SOL_SOCKET, SRTO_IPV6ONLY, &enable, sizeof(enable));
++    srt_setsockopt(fd, SOL_SOCKET, SRTO_LOSSMAXTTL, &lossmaxttlvalue, sizeof(lossmaxttlvalue));
+     
+     /* Set the socket's send or receive buffer sizes, if specified.
+        If unspecified or setting fails, system default is used. */
