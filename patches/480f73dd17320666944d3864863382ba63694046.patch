@@ -1,0 +1,23 @@
+From 480f73dd17320666944d3864863382ba63694046 Mon Sep 17 00:00:00 2001
+From: Edward-Wu <aimin_email@126.com>
+Date: Fri, 14 Aug 2020 20:53:34 +0800
+Subject: [PATCH] v1.4.9
+
+compatible for raspberrypi.
+---
+ slscore/SLSLog.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/slscore/SLSLog.cpp b/slscore/SLSLog.cpp
+index 6d3cab8..a9d4dc0 100644
+--- a/slscore/SLSLog.cpp
++++ b/slscore/SLSLog.cpp
+@@ -84,7 +84,7 @@ void CSLSLog::print_log(int level, const char *fmt, va_list vl)
+     sls_gettime_fmt(cur_time, cur_time_sec, "%Y-%m-%d %H:%M:%S");
+     vsnprintf (buf , 4095 , fmt , vl);
+     //sprintf(buf_info, "%s %s: %s\n" , cur_time, LOG_LEVEL_NAME[level], buf);
+-    sprintf(buf_info, "%s:%03d %s %s: %s\n" , cur_time, cur_time_msec, APP_NAME, LOG_LEVEL_NAME[level], buf);
++    sprintf(buf_info, "%s:%03d %s %s: %s\n" , cur_time, (int)cur_time_msec, APP_NAME, LOG_LEVEL_NAME[level], buf);
+     printf(buf_info);
+ 
+     if (m_log_file) {

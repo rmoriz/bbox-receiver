@@ -46,8 +46,10 @@ RUN cp /build/srtla/srtla_rec /build/srtla/srtla_send /usr/local/bin
 # Notes
 # - adjusted LD_LIBRARY_PATH to include the patched srt lib
 # - SRTLA patch applied from https://github.com/b3ck/sls-b3ck-edit/commit/c8ba19289a583d964dc5e54c746e2b24499226f5
-#
-COPY patches/sls-SRTLA.patch patches/sls-version.patch /tmp
+# - upstream patch for logging on arm
+COPY patches/sls-SRTLA.patch \
+	patches/sls-version.patch \
+	patches/480f73dd17320666944d3864863382ba63694046.patch /tmp/
 
 ARG SRT_LIVE_SERVER_VERSION=master
 RUN set -xe; \
@@ -57,6 +59,7 @@ RUN set -xe; \
 	git checkout $SRT_LIVE_SERVER_VERSION; \
 	patch -p1 < /tmp/sls-SRTLA.patch; \
 	patch -p1 < /tmp/sls-version.patch; \
+	patch -p1 < /tmp/480f73dd17320666944d3864863382ba63694046.patch; \
 	LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH make -j4; \
 	cp bin/* /usr/local/bin;
 
