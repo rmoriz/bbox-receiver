@@ -1,0 +1,24 @@
+{
+  "obs": {
+    "ip": "your-obs-node:4444",
+    "password": "obs-websocket-password",
+    "normalScene": "LIVE",
+    "offlineScene": "BRB",
+    "lowBitrateScene": "RECONNECTING",
+    "refreshScene": "RECONNECTING",
+    "lowBitrateTrigger": 400,
+    "highRttTrigger": 800,
+    "refreshSceneInterval": 10000,
+    "requestMs": 2000,
+    "onlySwitchWhenStreaming": false
+  },
+  "rtmp": {
+    "server": "srt-live-server",
+    "stats": "http://127.0.0.1:8181/stats",
+    "publisher": "live/stream/belabox"
+  },
+  "twitchChat": {
+    "enable": false
+  },
+  "language": "en"
+}
