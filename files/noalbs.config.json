@@ -1,0 +1,133 @@
+{
+  "user": {
+    "id": null,
+    "name": "715209",
+    "passwordHash": null
+  },
+  "switcher": {
+    "bitrateSwitcherEnabled": true,
+    "onlySwitchWhenStreaming": true,
+    "instantlySwitchOnRecover": true,
+    "autoSwitchNotification": true,
+    "retryAttempts": 5,
+    "triggers": {
+      "low": 800,
+      "rtt": 2500,
+      "offline": null
+    },
+    "switchingScenes": {
+      "normal": "live",
+      "low": "low",
+      "offline": "offline"
+    },
+    "streamServers": [{
+        "streamServer": {
+          "type": "NodeMediaServer",
+          "statsUrl": "http://localhost:8000/api/streams",
+          "application": "publish",
+          "key": "live",
+          "auth": {
+            "username": "admin",
+            "password": "admin"
+          }
+        },
+        "name": "NMS",
+        "priority": 0,
+        "overrideScenes": null,
+        "dependsOn": null
+      },
+      {
+        "streamServer": {
+          "type": "SrtLiveServer",
+          "statsUrl": "http://127.0.0.1:8181/stats",
+          "publisher": "publish/live/feed1"
+        },
+        "name": "SLS",
+        "priority": 0,
+        "overrideScenes": null,
+        "dependsOn": {
+          "name": "nginx",
+          "backupScenes": {
+            "normal": "Scene 3",
+            "low": "low",
+            "offline": "Scene 2"
+          }
+        }
+      },
+      {
+        "streamServer": {
+          "type": "SrtLiveServer",
+          "statsUrl": "http://127.0.0.1:8181/stats",
+          "publisher": "publish/live/feed2"
+        },
+        "name": "SLS2",
+        "priority": 0,
+        "overrideScenes": null,
+        "dependsOn": null
+      },
+      {
+        "streamServer": {
+          "type": "Nginx",
+          "statsUrl": "http://localhost/stats",
+          "application": "publish",
+          "key": "live"
+        },
+        "name": "nginx",
+        "priority": 1,
+        "overrideScenes": {
+          "normal": "normal",
+          "low": "low",
+          "offline": "offline"
+        },
+        "dependsOn": null
+      }
+    ]
+  },
+  "software": {
+    "type": "Obs",
+    "host": "localhost",
+    "password": "password",
+    "port": 4444
+  },
+  "chat": {
+    "platform": "Twitch",
+    "username": "715209",
+    "admins": [
+      "b3ck"
+    ],
+    "prefix": "!",
+    "enablePublicCommands": false,
+    "enableModCommands": true,
+    "enableAutoStopStreamOnHostOrRaid": true,
+    "commands": {
+      "Fix": {
+        "permission": null,
+        "alias": [
+          "f"
+        ]
+      },
+      "Switch": {
+        "permission": "Mod",
+        "alias": [
+          "ss"
+        ]
+      },
+      "Bitrate": {
+        "permission": null,
+        "alias": [
+          "b"
+        ]
+      }
+    }
+  },
+  "optionalScenes": {
+    "starting": null,
+    "ending": null,
+    "privacy": "privacy"
+  },
+  "optionalOptions": {
+    "twitchTranscodingCheck": false,
+    "twitchTranscodingRetries": 5,
+    "twitchTranscodingDelaySeconds": 15
+  }
+}

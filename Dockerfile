@@ -1,18 +1,21 @@
 FROM debian:bullseye-backports AS builder
 
-ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN set -xe; \
     apt-get update; \
     apt-get -y upgrade; \
     apt-get install -y \
+    binutils \
     build-essential \
     ca-certificates \
     cmake \
+    curl \
     git \
     libssl-dev \
     libz-dev \
+    pkg-config \
     tcl \
     ;
 
@@ -61,8 +64,20 @@ RUN set -xe; \
     LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH make -j4; \
     cp bin/* /usr/local/bin;
 
+# NOALBS 2
+#
+ARG NOALBS_VERSION=v2.4.2
+RUN set -xe; \
+    git clone https://github.com/715209/nginx-obs-automatic-low-bitrate-switching /app; \
+    cd /app; \
+    git checkout $NOALBS_VERSION; \
+    curl https://sh.rustup.rs -sSf | sh -s -- --verbose -y; \
+    rustc --version; \
+    cargo build --release; \
+    strip target/release/noalbs;
 
-# runtime container with NOALBS
+
+# runtime container
 #
 FROM debian:bullseye-backports
 
@@ -82,21 +97,17 @@ RUN set -xe; \
 COPY --from=builder /usr/local/lib /usr/local/lib
 COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder /app/target/release/noalbs /usr/local/bin/noalbs
 
 COPY files/sls.conf /etc/sls/sls.conf
 COPY files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY files/logprefix /usr/local/bin/logprefix
+COPY files/noalbs.config.json /app/config.json
 
 RUN set -xe; \
     ldconfig; \
     chmod 755 /usr/local/bin/logprefix;
 
-ARG NOALBS_VERSION=v1.9.5
-RUN set -xe; \
-    git clone https://github.com/715209/nginx-obs-automatic-low-bitrate-switching /app; \
-    cd /app; \
-    git checkout $NOALBS_VERSION; \
-    npm install fast-fuzzy node-fetch node-media-server obs-websocket-js signale string-template ws xml2js;
 
 EXPOSE 5000/udp 8181/tcp 8282/udp
 

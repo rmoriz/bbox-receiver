@@ -1,5 +1,8 @@
+BRANCH="noalbs2"
+
 build:
-	docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag rmoriz/belabox-receiver .
+	docker buildx build --platform linux/amd64 --tag rmoriz/belabox-receiver:${BRANCH} .
+
 
 push:
-	docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag rmoriz/belabox-receiver .
+	docker buildx build --push --platform linux/amd64 --tag rmoriz/belabox-receiver:${BRANCH} .
